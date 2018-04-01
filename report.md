@@ -82,8 +82,8 @@
  -start_kernel是通用的内核启动函数，但是在初始化内核过程中，必然有一些参数是依赖于特定于硬件体系结构的，这些依赖特定于硬件体系结构的设置必须通过调用setup_arch函数来完成。这也是setup_arch重要的原因。
  
 ###2.-内核线程的创建与启动  
--创建并启动内核线程这个任务主要由rest_init这个函数来完成的，过程中还用到kernel_init *(kernel_init函数将完成设备驱动程序的初始化，并调用init_post函数启动用户空间的init进程)* 和init_post等函数。这个过程首先创建init内核线程（pid为1），将它挂起，等待创建kthreadd线程。然后创建kthreadd内核线程*(它的作用是管理和调度其它内核线程。
-它循环运行一个叫做kthreadd的函数，该函数的作用是运行kthread_create_list全局链表中维护的内核线程。调用kthread_create_list创建一个kthread，它会被加入到kthread_create_list链表中。被执行过的kthread会从kthread_create_list链表中删除。且kthreadd会不断调用scheduler函数让出CPU。此线程不可关闭)*在以上的过程中，内核创建了两个内核线程，一个是内核线程的管理者，另一个是内核初始化线程init,均为系统运行过程中的重要线程。  
+-创建并启动内核线程这个任务主要由rest_init这个函数来完成的，过程中还用到kernel_init *(kernel_init函数将完成设备驱动程序的初始化，并调用init_post函数启动用户空间的init进程)* 和init_post等函数。这个过程首先创建init内核线程（pid为1），将它挂起，等待创建kthreadd线程。然后创建kthreadd内核线程 *(它的作用是管理和调度其它内核线程。
+它循环运行一个叫做kthreadd的函数，该函数的作用是运行kthread_create_list全局链表中维护的内核线程。调用kthread_create_list创建一个kthread，它会被加入到kthread_create_list链表中。被执行过的kthread会从kthread_create_list链表中删除。且kthreadd会不断调用scheduler函数让出CPU。此线程不可关闭)* 在以上的过程中，内核创建了两个内核线程，一个是内核线程的管理者，另一个是内核初始化线程init,均为系统运行过程中的重要线程。  
   
   
   -**rest_init函数代码如下：**  
