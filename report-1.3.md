@@ -67,7 +67,7 @@
   
   计算机上电启动后，首先观察寄存器的状态：　　
   
-  [pic]  
+  ![pic](https://github.com/OSH-2018/1-Lumosis/blob/master/pic/1.png)  
 
   和函数调用栈的状态：　　
   
