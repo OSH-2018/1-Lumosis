@@ -82,7 +82,7 @@
   
   打印此时的代码：　　
   
-  ![pic]()　　
+  ![pic](https://github.com/OSH-2018/1-Lumosis/blob/master/pic/7.png)　　
   
   使用next命令单步执行，直到rest_init函数，单步进入，查看此时的寄存器和栈的状态：　　
   
