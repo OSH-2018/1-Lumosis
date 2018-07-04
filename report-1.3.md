@@ -27,17 +27,17 @@
   
   制作根文件系统
   
-  > cd ~/LinuxKernel/
-  > mkdir rootfs
+  > cd ~/LinuxKernel/  
+  > mkdir rootfs  
   > git clone https://github.com/mengning/menu.git  
   > cd menu  
-  > gcc -o init linktable.c menu.c test.c -m32 -static –lpthread  
+  > gcc -o init linktable.c menu.c test.c -m32 -static -lpthread  
   > cd ../rootfs  
   > cp ../menu/init ./  
   > find . | cpio -o -Hnewc |gzip -9 > ../rootfs.img  
   
   启动MenuOS
-  > cd ~/LinuxKernel/
+  > cd ~/LinuxKernel/  
   > qemu-system-x86_64 -kernel linux-3.18.102/arch/x86/boot/bzImage -initrd rootfs.img 
   
   重新编译配置Linux
@@ -47,10 +47,10 @@
   > kernel hacking ->[*]compile the kernel with debug info  
   
   再次编译
-  > make
+  > make  
   
   启动
-  > cd ~/LinuxKernel/
+  > cd ~/LinuxKernel/  
   > qemu-system-x86_64 -kernel linux-3.18.102/arch/x86/boot/bzImage -initrd rootfs.img 
   
   完成！
@@ -62,13 +62,51 @@
   打开另外一个终端  
   
   > gdb  
-  > (gdb）file linux-3.18.6/vmlinux  
+  > (gdb）file linux-3.18.102/vmlinux  
   > (gdb）target remote:1234 
   
-  在start_kernel()函数处设断点，开始单步执行，跟踪调试至该函数的执行
-  > (gdb) b start_kernel
+  计算机上电启动后，首先观察寄存器的状态：　　
   
-  仔细分析查阅start_kernel中每一个函数的功能，筛选出其中较为关键的事件
+  [pic]  
+
+  和函数调用栈的状态：　　
+  
+  [pic]  
+  
+  可以看出计算机启动后，某种机制会初始化寄存器的值和栈的状态。　　
+  
+  
+  然后在start_kernel函数处设置断点，当程序执行到这里时中断，观察此时寄存器的状态和函数函数调用栈的状态：　　
+  
+  [pic]　　　　
+  
+  打印此时的代码：　　
+  
+  [pic]　　
+  
+  使用next命令单步执行，直到init_kernel函数，单步进入，查看此时的寄存器和栈的状态：　　
+  
+  [pic]  
+  
+  打印代码：　　
+  
+  [pic]　　
+  
+  观察到两个重要的进程启动：  
+  
+  kernel_thread(kernel_init,...)  和 kernel_thread(kthreadd,...)　　
+  
+  单步执行完这两个函数后内核已经创建了三个进程：　　
+  
+  * init  
+  * kernel_init(在内核空间初始化，最后运行在用户态，将会成为之后系统中所有进程的祖先)  
+  * kthreadd (它的作用是管理和调度其它内核线程)  
+  
+  之后使用continue命令继续执行，内核启动完毕：　　
+  
+  [pic]
+
+  
 ## 三. 实验工具
   1.GDB调试工具：用来跟踪调试Linux内核代码  
   
@@ -94,7 +132,6 @@
      * between the root thread and the init thread may cause start_kernel to
      * be reaped by free_initmem before the root thread has proceeded to
      * cpu_idle.
-     *
      * gcc-3.4 accidentally inlines this function, so use noinline.
      */
      
