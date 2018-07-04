@@ -84,7 +84,7 @@
   
   ![pic]()　　
   
-  使用next命令单步执行，直到init_kernel函数，单步进入，查看此时的寄存器和栈的状态：　　
+  使用next命令单步执行，直到rest_init函数，单步进入，查看此时的寄存器和栈的状态：　　
   
   ![pic](https://github.com/OSH-2018/1-Lumosis/blob/master/pic/4.png)  
   
