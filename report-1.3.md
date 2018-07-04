@@ -71,26 +71,26 @@
 
   和函数调用栈的状态：　　
   
-  [pic]  
+  ![pic](https://github.com/OSH-2018/1-Lumosis/blob/master/pic/2.png)  
   
   可以看出计算机启动后，某种机制会初始化寄存器的值和栈的状态。　　
   
   
-  然后在start_kernel函数处设置断点，当程序执行到这里时中断，观察此时寄存器的状态和函数函数调用栈的状态：　　
+  然后在start_kernel函数处设置断点，当程序执行到这里时中断，观察此时寄存器的状态和函数调用栈的状态：　　
   
-  [pic]　　　　
+  ![pic](https://github.com/OSH-2018/1-Lumosis/blob/master/pic/3.png)　　　　
   
   打印此时的代码：　　
   
-  [pic]　　
+  ![pic]()　　
   
   使用next命令单步执行，直到init_kernel函数，单步进入，查看此时的寄存器和栈的状态：　　
   
-  [pic]  
+  ![pic](https://github.com/OSH-2018/1-Lumosis/blob/master/pic/4.png)  
   
   打印代码：　　
   
-  [pic]　　
+  ![pic](https://github.com/OSH-2018/1-Lumosis/blob/master/pic/5.png)　　
   
   观察到两个重要的进程启动：  
   
@@ -104,7 +104,7 @@
   
   之后使用continue命令继续执行，内核启动完毕：　　
   
-  [pic]
+  ![pic](https://github.com/OSH-2018/1-Lumosis/blob/master/pic/6.png)
 
   
 ## 三. 实验工具
